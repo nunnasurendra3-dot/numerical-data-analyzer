@@ -242,3 +242,27 @@ At Risk Students:
     st.info(
         f"{len(at_risk)} students require academic attention."
     )
+
+# Footer
+st.markdown(
+    """
+    <style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        padding: 10px 0;
+        color: #777;
+        font-size: 14px;
+        background-color: transparent;
+    }
+    </style>
+
+    <div class="footer">
+        © 2026 <strong>NUNNA SURENDRA</strong> · Numerical Data Analyzer
+    </div>
+    """,
+    unsafe_allow_html=True
+)
