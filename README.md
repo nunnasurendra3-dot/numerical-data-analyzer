@@ -274,6 +274,139 @@ Example Docker verification:
 docker build -t numerical-data-analyzer .
 docker run -p 8000:8000 numerical-data-analyzer
 
+## ☸️ Kubernetes Deployment
+
+Kubernetes is used to deploy, manage, and run containerized applications. It helps automate container deployment, scaling, and recovery.
+
+### Prerequisites
+
+Make sure the following tools are installed and configured:
+
+- Docker Desktop
+- Kubernetes enabled and running
+- `kubectl` command-line tool
+- Docker image for the application
+
+Verify the installations:
+
+```powershell
+docker --version
+kubectl version --client
+kubectl cluster-info
+```
+
+### 1. Start the Kubernetes Cluster
+
+Start Docker Desktop and ensure your Kubernetes cluster is running.
+
+Verify the cluster connection:
+
+```powershell
+kubectl cluster-info
+kubectl get nodes
+```
+
+### 2. Build the Docker Image
+
+From the project directory, build the application image using the Dockerfile location configured for your project.
+
+```powershell
+docker build -t numerical-data-analyzer:latest -f src/Dockerfile .
+```
+
+If your Kubernetes deployment uses a locally built image, configure the deployment to use the same image name and an appropriate image-pull policy.
+
+### 3. Deploy the Application
+
+Store your Kubernetes configuration files in a directory named `k8s/`.
+
+For example:
+
+```text
+k8s/
+├── deployment.yaml
+└── service.yaml
+```
+
+Apply the configuration files:
+
+```powershell
+kubectl apply -f k8s/
+```
+
+Check the deployed resources:
+
+```powershell
+kubectl get deployments
+kubectl get pods
+kubectl get services
+```
+
+### 4. Access the Application
+
+Use port forwarding to access the application from your local machine.
+
+For a deployment exposing container port `8000`:
+
+```powershell
+kubectl port-forward deployment/numerical-data-analyzer 8000:8000
+```
+
+For a Streamlit dashboard exposing container port `8501`:
+
+```powershell
+kubectl port-forward deployment/student-analytics 8501:8501
+```
+
+Use only the command that matches your actual Kubernetes deployment name and container port. Keep the terminal running while accessing the application.
+
+Open the corresponding URL in your browser:
+
+- FastAPI: `http://localhost:8000`
+- FastAPI interactive documentation: `http://localhost:8000/docs`
+- Streamlit dashboard: `http://localhost:8501`
+
+These URLs work only when the matching application is deployed and listening on the specified port.
+
+### 5. Monitor the Deployment
+
+Check the status of the pods:
+
+```powershell
+kubectl get pods
+```
+
+Inspect a deployment:
+
+```powershell
+kubectl describe deployment numerical-data-analyzer
+```
+
+View application logs:
+
+```powershell
+kubectl logs deployment/numerical-data-analyzer
+```
+
+Replace `numerical-data-analyzer` with the actual deployment name when necessary.
+
+### 6. Update or Remove the Deployment
+
+After updating the application image or Kubernetes manifests, apply the configuration again:
+
+```powershell
+kubectl apply -f k8s/
+```
+
+To remove the deployed resources created from these manifests:
+
+```powershell
+kubectl delete -f k8s/
+```
+
+**Note:** Kubernetes resources must be defined in valid manifest files before they can be deployed. The filenames, deployment names, image settings, and ports in this section must match the actual project configuration.
+
+
 🔐 Configuration & Security
 
 Do not commit sensitive information such as:
